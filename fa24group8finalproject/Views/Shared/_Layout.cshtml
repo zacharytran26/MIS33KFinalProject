@@ -1,0 +1,122 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="font-size: 0.9rem;">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                    <img src="/images/logo.jpg" width="65" alt="BevoBnB Logo" title="BevoBnB Logo" />
+                </a>
+
+                <!-- Toggle Button for Mobile View -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Navbar Links -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <!-- Home Link -->
+                        <li class="nav-item">
+                            <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                        </li>
+
+                        <!-- Role-Specific Links -->
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole("Customer"))
+                            {
+                                <li class="nav-item me-2">
+                                    <a asp-controller="Reservation" asp-action="Index" class="nav-link">Reservations</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a asp-controller="PropertyReview" asp-action="Details" class="nav-link">Property Reviews</a>
+                                </li>
+        
+                            }
+
+                            @if (User.IsInRole("Host"))
+                            {
+                                <li class="nav-item">
+                                    <a asp-controller="Properties" asp-action="Create" class="nav-link fs-6">List Property</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="Reservation" asp-action="Index" class="nav-link fs-6">Reservations</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="PropertyReview" asp-action="DisputeReviewTable" class="nav-link fs-6">Disputed Reviews</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="Properties" asp-action="SeeDeleted" class="nav-link fs-6">Deleted Listings</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a asp-controller="Properties" asp-action="HostReport" class="nav-link fs-6">Host Report</a>
+                                </li>
+
+                            }
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a asp-controller="RoleAdmin" asp-action="ApproveProperties" class="nav-link fs-6">Approve Properties</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="Category" asp-action="Create" class="nav-link fs-6">Add Category</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="PropertyReview" asp-action="DetailsAdmin" class="nav-link fs-6">Review Disputes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="RoleAdmin" asp-action="Index" class="nav-link fs-6">Manage Users</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="Properties" asp-action="AdminReport" class="nav-link fs-6">Admin Report</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="Account" asp-action="RegisterAdmin" class="nav-link fs-6">New Admin</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    <!-- User Account Links -->
+                    <div class="d-flex">
+                        @await Html.PartialAsync("_LoginPartial")
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container body-content mt-5">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - BevoBnB</p>
+        </footer>
+    </div>
+
+    <!-- Scripts Section -->
+    @RenderSection("Scripts", required: false)
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/popper.js/popper.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+</body>
+</html>

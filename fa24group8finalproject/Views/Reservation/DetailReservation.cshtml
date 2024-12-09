@@ -1,0 +1,131 @@
+﻿@model fa24group8finalproject.Models.Reservation
+
+@{
+    ViewData["Title"] = "Reservation Details";
+}
+
+<h1>Reservation Details</h1>
+<hr />
+
+
+<div>
+    <dl class="row">
+        @if (Model.Status == rStatus.Pending)
+        {
+            <dt class="col-sm-2">
+                Today's Date
+            </dt>
+        }
+        else
+        {
+            <dt class="col-sm-2">
+                Reservation Date
+            </dt>
+        }
+
+        <dd class="col-sm-10">
+            @DateTime.Today.ToShortDateString()
+        </dd>
+        <dt class="col-sm-2">
+            Reservation Status
+        </dt>
+        <dd class="col-sm-10">
+            <!-- Display reservation status -->
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <dt class="col-sm-2">
+                Customer
+            </dt>
+            <dd class="col-sm-10">
+                @Model.User.Email
+            </dd>
+        }
+    </dl>
+    <div>Confirmation Number: @Model.ConfirmationNumber</div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-outline-primary">Back to Reservations</a>
+</div>
+
+<hr />
+
+<h5>Reservation Information</h5>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Check-in Date</th>
+            <th>Check-out Date</th>
+            <th>Property Address</th>
+            <th>Number of Guests</th>
+            <th>Stay Price</th>
+            <th>Cleaning Fee</th>
+            <th>Discount</th>
+            <th>Sales Tax</th>
+            <th>Total Reservation Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Html.DisplayFor(model => model.CheckInDate)</td>
+            <td>@Html.DisplayFor(model => model.CheckOutDate)</td>
+            <td>@Html.DisplayFor(model => model.Property.FullAddress)</td>
+            <td>@Html.DisplayFor(model => model.NumberOfGuests)</td>
+            <td>@Html.DisplayFor(model => model.TotalPrice)</td>
+            <td>@Html.DisplayFor(model => model.CleaningFee)</td>
+            <td>@Html.DisplayFor(model => model.Discount)</td>
+            <td>@Html.DisplayFor(model => model.SalesTax)</td>
+            <td>@Model.ReservationTotal</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr />
+
+<h5>Reservation Summary</h5>
+<table class="table table-sm table-bordered" style="width:30%">
+    <tr>
+        <td>Total Stay Price:</td>
+        <td>@Html.DisplayFor(model => model.TotalPrice)</td>
+    </tr>
+    <tr>
+        <td>Total Cleaning Fee:</td>
+        <td>@Html.DisplayFor(model => model.CleaningFee)</td>
+    </tr>
+    <tr>
+        <td>Total Discount:</td>
+        <td>@Html.DisplayFor(model => model.Discount)</td>
+    </tr>
+    <tr>
+        <td>Sales Tax:</td>
+        <td>@Html.DisplayFor(model => model.SalesTax)</td>
+    </tr>
+    <tr>
+        <td>Total Reservation Price:</td>
+        <td>@Model.ReservationTotal</td>
+    </tr>
+</table>
+
+<br />
+<hr />
+
+<div>
+    <p>
+        <strong>Reservation Details:</strong>
+    </p>
+    <p>
+        - Stay Price: The total daily price for this reservation.
+    </p>
+    <p>
+        - Cleaning Fee: A flat cleaning fee applied to the reservation.
+    </p>
+    <p>
+        - Discount: Discount applied based on the property's promotion rules.
+    </p>
+    <p>
+        - Reservation Total: The final total price for this reservation.
+    </p>
+</div>

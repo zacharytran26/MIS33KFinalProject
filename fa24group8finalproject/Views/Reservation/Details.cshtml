@@ -1,0 +1,91 @@
+@model fa24group8finalproject.Models.Reservation
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Reservation Details</h1>
+<hr />
+
+<div>
+    <dl class="row">
+        <div class="d-flex">
+            <dt class="me-2">Today's Date:</dt>
+            <dd>@DateTime.Today.ToShortDateString()</dd>
+        </div>
+
+        <div class="d-flex">
+            <dt class="me-2">Reservation Status:</dt>
+            <dd>@Model.Status</dd>
+        </div>
+
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <div class="d-flex">
+                <dt class="me-2">Customer:</dt>
+                <dd>@Model.User.Email</dd>
+            </div>
+        }
+    </dl>
+</div>
+
+@* <div>
+    <dl class="row">
+        <dt class="col-sm-2">Today's Date</dt>
+        <dd class="col-sm-10">@DateTime.Today.ToShortDateString()</dd>
+
+        <dt class="col-sm-2">Reservation Status</dt>
+        <dd class="col-sm-10">@Model.Status</dd>
+
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <dt class="col-sm-2">Customer</dt>
+            <dd class="col-sm-10">@Model.User.Email</dd>
+        }
+    </dl>
+</div> *@
+
+<hr />
+
+<h5>Reservation Details</h5>
+<div class="table-responsive">
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Check-in Date</th>
+            <th>Check-out Date</th>
+            <th>Property Address</th>
+            <th>Number of Guests</th>
+            <th>Stay Price</th>
+            <th>Cleaning Fee</th>
+            <th>Discount</th>
+            <th>Sales Tax</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.CheckInDate.ToShortDateString()</td>
+            <td>@Model.CheckOutDate.ToShortDateString()</td>
+            <td>@Model.Property.FullAddress</td>
+            <td>@Model.NumberOfGuests</td>
+            <td>@Model.TotalPrice.ToString("C")</td>
+            <td>@Model.CleaningFee.ToString("C")</td>
+            <td>@Model.Discount.ToString("C")</td>
+            <td>@Model.SalesTax.ToString("C")</td>
+            <td>@Model.ReservationTotal.ToString("C")</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<hr />
+
+<div>
+    <a asp-action="ReservationConfirmation" asp-route-rid="@Model.ReservationID" class="btn btn-success">
+        Confirm Reservation
+    </a>
+</div>
+<div>
+    <a asp-action="Index" asp-controller="Reservation" class="btn btn-outline-primary mt-2 btn-sm">Back to Reservations</a>
+</div>

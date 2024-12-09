@@ -1,0 +1,132 @@
+﻿@model IEnumerable<fa24group8finalproject.Models.Property>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="text-center">
+<h1>Welcome to BevoBnB!</h1>
+<h6>Stay with ease, play with joy.</h6>
+<hr />
+</div>
+
+<div class="container my-4">
+
+    <form asp-action="Index" asp-controller="Home" method="get" class="form-inline">
+        <div class="row">
+            <!-- Search Input -->
+            <div class="col-md-4">
+                <label for="SearchString" class="form-label fw-bold">Search:</label>
+                <input type="text" name="SearchString" class="form-control" placeholder="Enter street address" />
+            </div>
+
+            <!-- Check-In Date -->
+            <div class="col-md-4">
+                <label for="SearchCheckIn" class="form-label fw-bold">Check-In Date:</label>
+                <input type="date" name="SearchCheckIn" class="form-control" />
+            </div>
+
+            <!-- Check-Out Date -->
+            <div class="col-md-4">
+                <label for="SearchCheckOut" class="form-label fw-bold">Check-Out Date:</label>
+                <input type="date" name="SearchCheckOut" class="form-control" />
+            </div>
+
+        </div>
+
+        <!-- Buttons Section -->
+        <div class="text-center mt-3">
+            <div class="col">
+                <button type="submit" class="btn btn-danger btn-sm">Quick Search</button>
+                <a asp-action="DetailedSearch" class="btn btn-info btn-sm">Detailed Search</a>
+                <a asp-action="Index" class="btn btn-dark btn-sm">Show All</a>
+            </div>
+        </div>
+        <div class="mt-4 text-center">
+            <div class="col">
+                <label class="form-label fw-bold">Filter by Category:</label><br />
+                @foreach (var category in ViewBag.Categories as List<fa24group8finalproject.Models.Category>)
+                {
+                    <a asp-action="Index" asp-route-SelectedCategory="@category.CategoryID" class="btn btn-outline-secondary btn-sm mb-2">
+                        @category.CategoryName
+                    </a>
+                }
+        </div>
+    </form>
+
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+    {
+        <p>
+            Displaying @ViewBag.HostAllProperties Properties
+        </p>
+    }
+    else
+    {
+        <p>
+            Displaying @ViewBag.SelectedProperty of @ViewBag.AllProperties Properties
+        </p>
+    }
+
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    <img src="@GetCategoryImageUrl(item.Category)" class="card-img-top" alt="Property Image" />
+                    <div class="card-body">
+                        <h5 class="card-title"> @item.City, @item.State</h5>
+                        <p class="card-text">
+                            @if (item.AverageRating == 0 || item.AverageRating == null)
+                            {
+                                <strong><span>No ratings</span></strong>
+                            }
+                            else
+                            {
+                                <span>
+                                    <strong>Rating:</strong>
+                                    @item.AverageRating.ToString("0.0") ⭐
+                                </span>
+                            }
+                            <br />
+                            <strong>Guests:</strong> @item.NumberOfGuestsAllowed <br />
+                            <strong>Price:</strong> $@item.PricePerWeekday (Weekday), $@item.PricePerWeekend (Weekend)
+                        </p>
+                        <a asp-action="Details" asp-route-id="@item.PropertyID" class="btn btn-primary btn-sm">Details</a>
+                        <a asp-controller="PropertyReview" asp-action="Index" asp-route-id="@item.PropertyID" class="btn btn-info btn-sm">Reviews</a>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+                        {
+                            <a asp-action="Edit" asp-controller="Properties" asp-route-id="@item.PropertyID" class="btn btn-warning btn-sm">Edit</a>
+                            <a asp-action="Delete" asp-controller="Properties" asp-route-id="@item.PropertyID" class="btn btn-secondary btn-sm">Delete</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    @functions {
+        public string GetCategoryImageUrl(Category category)
+        {
+            if (category == null)
+            {
+                return "/images/default.jpg"; // Default image if category is null
+            }
+
+            // Map categories to image URLs
+            switch (category.CategoryName)
+            {
+                case "House":
+                    return "/images/modern-home.jpg";
+                case "Condo":
+                    return "/images/condo.jpg";
+                case "Apartment":
+                    return "/images/apartment.jpg";
+                case "Hotel":
+                    return "/images/hotel.jpg";
+                case "Cabin":
+                    return "/images/cabin.jpg";
+                default:
+                    return "/images/default.jpg"; // Fallback image
+            }
+        }
+    }

@@ -1,0 +1,128 @@
+﻿@model fa24group8finalproject.Models.PropertySearchViewModel
+
+@{
+    ViewData["Title"] = "PropertySearch";
+}
+
+<h1>Detailed Property Search</h1>
+@if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+{
+    <p>
+        Filter through your property listings
+    </p>
+}
+else
+{
+    <p>
+        Filter through our properties
+    </p>
+}
+
+<hr />
+<div class="text-danger">@ViewBag.ErrorMessage</div>
+
+<!--user can search by city, state, guest ratings, num guests, daily price, category, num bedrooms, num bathrooms, pets, free parking-->
+
+    <form asp-action="DetailedSearch" method="post">
+        <div class="row g-3">
+            <!-- Check-In and Check-Out Dates -->
+            <div class="col-md-6">
+                <label class="form-label"><strong>Search by Check-In Date</strong></label>
+                <input asp-for="SearchCheckIn" class="form-control" />
+                <span asp-validation-for="SearchCheckIn" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label"><strong>Search by Check-Out Date</strong></label>
+                <input asp-for="SearchCheckOut" class="form-control" />
+                <span asp-validation-for="SearchCheckOut" class="text-danger"></span>
+            </div>
+
+            <!-- Search by City and State -->
+            <div class="col-md-6">
+                <label class="form-label"><strong>Search by City</strong></label>
+                <input asp-for="SearchCity" class="form-control" />
+                <span asp-validation-for="SearchCity" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label"><strong>Search by State</strong></label>
+                <select asp-for="SearchState" asp-items="Html.GetEnumSelectList<StateList>()" class="form-control">
+                    <option selected="selected" value="StateList.TX">All States</option>
+                </select>
+                <span asp-validation-for="SearchState" class="text-danger"></span>
+            </div>
+
+            <!-- Search by Guest Rating -->
+            <div class="col-md-12">
+                <label class="form-label"><strong>Search by Average Guest Rating</strong></label>
+            <label class="form-label" style="font-size: 14px;color: #999;"><strong>(please only enter a min OR a max)</strong></label>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <input asp-for="SearchGuestRatingMin" class="form-control" placeholder="Minimum" />
+                        <span asp-validation-for="SearchGuestRatingMin" class="text-danger"></span>
+                    <label class="form-label" style="font-size: 14px;color: #999;"><strong>Properties with at least a rating of X</strong></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input asp-for="SearchGuestRatingMax" class="form-control" placeholder="Maximum" />
+                        <span asp-validation-for="SearchGuestRatingMax" class="text-danger"></span>
+                    <label class="form-label" style="font-size: 14px;color: #999;"><strong>Properties with a rating of X or less</strong></label>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search by Number of Guests -->
+            <div class="col-md-12">
+                <label class="form-label"><strong>Search by Guest Limit</strong></label>
+            <label class="form-label" style="font-size: 14px;color: #999;"><strong>(please only enter a min OR a max)</strong></label>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <input asp-for="SearchNumGuestsMin" class="form-control" placeholder="Minimum" />
+                        <span asp-validation-for="SearchNumGuestsMin" class="text-danger"></span>
+                    <label class="form-label" style="font-size: 14px;color: #999;"><strong>Properties that can house at least X number of guests</strong></label>
+
+                    </div>
+                    <div class="col-md-6">
+                        <input asp-for="SearchNumGuestsMax" class="form-control" placeholder="Maximum" />
+                        <span asp-validation-for="SearchNumGuestsMax" class="text-danger"></span>
+                    <label class="form-label" style="font-size: 14px;color: #999;"><strong>Properties that can house X number of guests or less</strong></label>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search by Category -->
+            <div class="col-md-6">
+                <label class="form-label"><strong>Search by Category</strong></label>
+                @Html.DropDownList("SelectedCategory", (SelectList)ViewBag.AllCategories, new { @class = "form-control" })
+            </div>
+
+            <!-- Search for Pets Allowed -->
+            <div class="col-md-6">
+                <label class="form-label"><strong>Allows Pets?</strong></label>
+                <select asp-for="SearchPetsAllowed" asp-items="Html.GetEnumSelectList<YesNo>()" class="form-control">
+                    <option selected="selected" value="YesNo.Undefined">Select Pet Allowance</option>
+                </select>
+                <span asp-validation-for="SearchPetsAllowed" class="text-danger"></span>
+            </div>
+
+            <!-- Search for Free Parking -->
+            <div class="col-md-6">
+                <label class="form-label"><strong>Has Free Parking?</strong></label>
+                <select asp-for="SearchParkingAllowed" asp-items="Html.GetEnumSelectList<YesNo>()" class="form-control">
+                    <option selected="selected" value="YesNo.Undefined">Select Free Parking Availability</option>
+                </select>
+                <span asp-validation-for="SearchParkingAllowed" class="text-danger"></span>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="col-md-12 mt-4">
+                <input type="submit" value="Search" class="btn btn-info" />
+            <a asp-action="Index" class="btn btn-outline-primary btn-sm ms-2">Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+

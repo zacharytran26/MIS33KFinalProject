@@ -1,0 +1,126 @@
+@model fa24group8finalproject.Models.Property
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>List New Property</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" id="CategoryID" name="CategoryID" />
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <select asp-for="Category" asp-items="ViewBag.Categories" class="form-control">
+                </select>
+                <span asp-validation-for="State" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="HostEmail" class="control-label"></label>
+                    <input asp-for="HostEmail" class="form-control" />
+                    <span asp-validation-for="HostEmail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StreetAddress" class="control-label"></label>
+                    <input asp-for="StreetAddress" class="form-control" />
+                    <span asp-validation-for="StreetAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="City" class="control-label"></label>
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AptNum" class="control-label"></label>
+                    <input asp-for="AptNum" class="form-control" />
+                    <span asp-validation-for="AptNum" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="State" class="control-label"></label>
+                    <select asp-for="State" asp-items="Html.GetEnumSelectList<fa24group8finalproject.Models.StateList>()" class="form-control">
+                        <option selected="selected" value="">Select a State</option>
+                    </select>
+                    <span asp-validation-for="State" class="text-danger"></span>
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="ZipCode" class="control-label"></label>
+                    <input asp-for="ZipCode" class="form-control" />
+                    <span asp-validation-for="ZipCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NumberOfBeds" class="control-label"></label>
+                    <input asp-for="NumberOfBeds" class="form-control" />
+                    <span asp-validation-for="NumberOfBeds" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NumberOfBaths" class="control-label"></label>
+                    <input asp-for="NumberOfBaths" class="form-control" />
+                    <span asp-validation-for="NumberOfBaths" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NumberOfGuestsAllowed" class="control-label"></label>
+                    <input asp-for="NumberOfGuestsAllowed" class="form-control" />
+                    <span asp-validation-for="NumberOfGuestsAllowed" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PricePerWeekday" class="control-label"></label>
+                    <input asp-for="PricePerWeekday" class="form-control" />
+                    <span asp-validation-for="PricePerWeekday" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PricePerWeekend" class="control-label"></label>
+                    <input asp-for="PricePerWeekend" class="form-control" />
+                    <span asp-validation-for="PricePerWeekend" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PetsAllowed" class="control-label"></label>
+                    <select asp-for="PetsAllowed" asp-items="Html.GetEnumSelectList<fa24group8finalproject.Models.YesNo>()" class="form-control">
+                        <option selected="selected" value="">Please select an option</option>
+                    </select>
+                    <span asp-validation-for="PetsAllowed" class="text-danger"></span>
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="ParkingAllowed" class="control-label"></label>
+                    <select asp-for="ParkingAllowed" asp-items="Html.GetEnumSelectList<fa24group8finalproject.Models.YesNo>()" class="form-control">
+                        <option selected="selected" value="">Please select an option</option>
+                    </select>
+                    <span asp-validation-for="ParkingAllowed" class="text-danger"></span>
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="ApprovalStatus" class="control-label"></label>
+                    <select asp-for="ApprovalStatus" asp-items="Html.GetEnumSelectList<fa24group8finalproject.Models.aStatus>()" class="form-control">
+                        <option selected="selected" value="">Please select an option</option>
+                    </select>
+                    <span asp-validation-for="ApprovalStatus" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Discount" class="control-label"></label>
+                    <input asp-for="Discount" class="form-control" />
+                    <span asp-validation-for="Discount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CleaningFee" class="control-label"></label>
+                    <input asp-for="CleaningFee" class="form-control" />
+                    <span asp-validation-for="CleaningFee" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DiscountDays" class="control-label"></label>
+                    <input asp-for="DiscountDays" class="form-control" />
+                    <span asp-validation-for="DiscountDays" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success mt-3" />
+                </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-primary btn-sm mt-3">Back to Home</a>
+</div>
+

@@ -1,0 +1,23 @@
+﻿@model fa24group8finalproject.Models.Reservation
+
+@{
+    ViewData["Title"] = "Confirm";
+}
+<h1>Order Confirmed!</h1>
+<hr />
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
+{
+    <p>Thank you for booking with BevoBnB! Your order has been confirmed!</p>
+    <p>Your order confirmation number is <strong class="text-info">@Model.ConfirmationNumber</strong>. Please keep this for
+    your records.</p>
+
+    <a asp-controller="Reservation" asp-action="Index" class="btn btn-outline-primary mt-3">Go Back to Reservations</a>
+}
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <p>The order for <strong class="text-info">@Model.User.Email</strong> has been confirmed!</p>
+    <p>The order confirmation number is <strong class="text-info">@Model.ConfirmationNumber</strong>.</p>
+
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary mt-3">Go Back to Properties</a>
+}

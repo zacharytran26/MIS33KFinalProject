@@ -1,0 +1,54 @@
+﻿@model fa24group8finalproject.Models.PropertySearchViewModel
+
+@{
+    ViewData["Title"] = "PropertySearch";
+}
+
+<h1>Admin Report Search Criteria.</h1>
+
+
+<p>
+        Filter through the properties and reservations to include in the report.
+</p>
+
+
+<p>
+    To search less than, leave minimum value empty. To search greater than, leave maximum value empty.
+</p>
+
+<hr />
+<div class="text-danger">@ViewBag.ErrorMessage</div>
+
+<!--user can search by city, state, guest ratings, num guests, daily price, category, num bedrooms, num bathrooms, pets, free parking-->
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AdminReportSearch" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!--search by check in date-->
+            <div class="form-group">
+                <label class="control-label"><strong>Search by Check-In Date</strong></label>
+                <input asp-for="SearchCheckIn" class="form-control" />
+                <span asp-validation-for="SearchCheckIn" class="text-danger"></span>
+            </div>
+            </br>
+
+            <!--search by check out date-->
+            <div class="form-group">
+                <label class="control-label"><strong>Search by Check-Out Date</strong></label>
+                <input asp-for="SearchCheckOut" class="form-control" />
+                <span asp-validation-for="SearchCheckOut" class="text-danger"></span>
+            </div>
+            </br>
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-outline-primary mt-3">Back to List</a>
+</div>
+

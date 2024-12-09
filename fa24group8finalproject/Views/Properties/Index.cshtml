@@ -1,0 +1,37 @@
+@model IEnumerable<fa24group8finalproject.Models.Property>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p class="text-muted">Displaying @ViewBag.SelectedProperties of @ViewBag.AllProperties properties.</p>
+
+    <!-- Property Cards -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Property Image" />
+                    <div class="card-body">
+                        <h5 class="card-title">@item.StreetAddress, @item.City</h5>
+                        <p class="card-text">
+                            <strong>Rating:</strong> @item.AverageRating <br />
+                            <strong>Guests:</strong> @item.NumberOfGuestsAllowed <br />
+                            <strong>Price:</strong> $@item.PricePerWeekday (Weekday), $@item.PricePerWeekend (Weekend)
+                        </p>
+                        <a asp-action="Details" asp-route-id="@item.PropertyID" class="btn btn-primary btn-sm">Details</a>
+                        <a asp-controller="PropertyReview" asp-action="Index" asp-route-id="@item.PropertyID" class="btn btn-info btn-sm">Reviews</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (Model.Count() == 0)
+    {
+        <div class="text-center py-5">
+            <p class="text-muted">No properties found. Check back later!</p>
+        </div>
+    }
+</div>

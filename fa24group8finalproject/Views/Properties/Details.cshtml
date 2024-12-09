@@ -1,0 +1,116 @@
+@model fa24group8finalproject.Models.Property
+
+@{
+    ViewData["Title"] = "Property Details";
+}
+
+<h1 class="text-center mt-4">@ViewData["Title"]</h1>
+<h6 class="text-center mt-4">
+    Viewing details for <span class="text-info fw-bolder">@Model.FullAddress</span>
+</h6>
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Property Information Card -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Property Information</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Property Number:</strong> @Model.PropertyNumber</p>
+                    <p><strong>Category:</strong> @Model.Category.CategoryName</p>
+                    <p><strong>Host Email:</strong> @Model.HostEmail</p>
+                    <p><strong>Address:</strong> @Model.StreetAddress, @Model.City, @Model.State @Model.ZipCode</p>
+                    @if (Model.Category.CategoryName == "Apartment")
+                    {
+                        <p><strong>Apartment Number:</strong> @Model.AptNum</p>
+                    }
+                    @if (Model.Category.CategoryName == "Condo")
+                    {
+                        <p><strong>Suite Number:</strong> @Model.AptNum</p>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Accommodation Details Card -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">Accommodation Details</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Number of Beds:</strong> @Model.NumberOfBeds</p>
+                    <p><strong>Number of Baths:</strong> @Model.NumberOfBaths</p>
+                    <p><strong>Max Guests Allowed:</strong> @Model.NumberOfGuestsAllowed</p>
+                    <p><strong>Pets Allowed:</strong> @(Model.PetsAllowed )</p>
+                    <p><strong>Parking Available:</strong> @(Model.ParkingAllowed)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Pricing Card -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Pricing</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Weekday Price:</strong> $@Model.PricePerWeekday</p>
+                    <p><strong>Weekend Price:</strong> $@Model.PricePerWeekend</p>
+                    <p><strong>Cleaning Fee:</strong> $@Model.CleaningFee</p>
+                    <p><strong>Discount:</strong> @(Model.Discount * 100)%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Information Card -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Additional Information</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Average Rating:</strong> @Model.AverageRating </p>
+                    <p><strong>Status:</strong> @Model.Status</p>
+                    <p><strong>Discount Days:</strong> @Model.DiscountDays</p>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+                    {
+                        <p><strong>Approval Status:</strong> @Model.ApprovalStatus</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions Section -->
+    <div class="row">
+        <div class="col-md-12 text-center mt-4">
+            @if (User.Identity.IsAuthenticated)
+            {
+                @if (User.IsInRole("Admin") || User.IsInRole("Customer"))
+                {
+                    <div>
+                        <a asp-controller="Reservation" asp-action="Create" asp-route-id="@Model.PropertyID" class="btn btn-info mb-3">Make Reservation</a>
+                    </div>
+                }
+            }
+
+
+            <!--host can make their property unavailable for specific dates by making a fake reservation-->
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Host"))
+            {
+                <div>
+                    <a asp-controller="Reservation" asp-action="Create" asp-route-id="@Model.PropertyID" class="btn btn-info mb-3">Make Unavailable</a>
+                </div>}
+
+            <div>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">Back to Property Listings</a>
+            </div>
+        </div>
+    </div>
+</div>
