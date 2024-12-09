@@ -1,0 +1,11 @@
+<ListOfTaskListEntry>
+  <TaskListEntry file="" description="TEST: Create a new property" />
+  <TaskListEntry file="" description="TODO: PROPERTY REVIEW AND MAKE SURE IT WORKS" completed="True" />
+  <TaskListEntry file="" description="TODO: CREATING RESERVATION FOR CUSTOMER AS ADMIN" completed="True" />
+  <TaskListEntry file="" description="make sure you have to be over 18 to make an account " priority="High" completed="True" />
+  <TaskListEntry file="" description="Make sure to add blackout dates for certain properties" />
+  <TaskListEntry file="" description="USER:make sure the ratings are the same as whenever you press on reviews" />
+  <TaskListEntry file="" description="USER:make sure you can update the review" priority="High" completed="True" />
+  <TaskListEntry file="" description="get sales tax to display 2 decimal places" />
+  <TaskListEntry file="" description="City in details search does not work" completed="True" />
+</ListOfTaskListEntry>
